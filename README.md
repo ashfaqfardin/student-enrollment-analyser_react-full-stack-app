@@ -1,1 +1,0 @@
-# student-enrollment-analyser_react-full-stack-app
