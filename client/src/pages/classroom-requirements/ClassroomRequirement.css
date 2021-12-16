@@ -1,0 +1,16 @@
+.page-container{
+    flex: 78%;
+    background: #f2f6fb;
+    width: 100%;
+    height: 100vh;
+}
+
+.table_container{
+    max-width: 70%;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.chart_container{
+    background-color: burlywood;
+}

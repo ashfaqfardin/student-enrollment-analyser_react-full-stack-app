@@ -1,4 +1,5 @@
 .sidebar_container{
+    flex: auto;
     background-color:blue;
     height: auto;
     width: 300px;
@@ -6,7 +7,7 @@
 
 .sidebarContent_container{
     background: #f2f6fb;
-    height: auto;
+    height: 100vh;
     width:100%;
     display:flex;
     flex-direction: column;
