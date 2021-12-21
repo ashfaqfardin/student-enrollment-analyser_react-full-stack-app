@@ -1,3 +1,4 @@
+const { query } = require("express");
 const express = require("express");
 
 const PORT = process.env.PORT || 5000;
@@ -57,6 +58,37 @@ WHERE enrolled BETWEEN 1 AND 65 AND semester = '${semester}' AND year = ${year}`
 });
 
 
+app.get("/class-size-distributions/:semester/:year", (req, res) => {
+  const {semester, year} = req.params;
+  let sql = `SELECT
+  CASE WHEN enrolled BETWEEN 1 AND 10 THEN '1-10'
+       WHEN enrolled BETWEEN 11 AND 20 THEN '11-20'
+       WHEN enrolled BETWEEN 21 AND 30 THEN '21-30'
+       WHEN enrolled BETWEEN 31 AND 35 THEN '31-35'
+       WHEN enrolled BETWEEN 36 AND 40 THEN '36-40'
+       WHEN enrolled BETWEEN 41 AND 50 THEN '41-50'
+       WHEN enrolled BETWEEN 51 AND 55 THEN '51-55'
+       WHEN enrolled BETWEEN 56 AND 60 THEN '56-60'
+       WHEN enrolled > 60 THEN '60+' 
+  END AS enrollment,
+  COUNT(CASE WHEN course.school_title='SBE' THEN 'SBE' END) AS SBE,
+  COUNT(CASE WHEN course.school_title='SELS' THEN 'SELS' END) AS SELS,
+  COUNT(CASE WHEN course.school_title='SETS' THEN 'SETS' END) AS SETS,
+  COUNT(CASE WHEN course.school_title='SLASS' THEN 'SLASS' END) AS SLASS,
+  COUNT(CASE WHEN course.school_title='SPPH' THEN 'SPPH' END) AS SPPH,
+  COUNT(course_section.courseId) AS TOTAL
+FROM course_section, course
+WHERE semester = '${semester}' AND year = ${year} AND course_section.courseId=course.courseId
+GROUP BY enrollment
+HAVING enrollment IS NOT NULL;`;
+  
+    let query = db.query(sql, (err, results) => {
+      if (err) throw err;
+      res.send(results);
+    });
+  });
+
+
 app.get("/semesters&Years-on-database", (req, res) => {
 
   let sql = `SELECT DISTINCT semester, year
@@ -69,6 +101,8 @@ app.get("/semesters&Years-on-database", (req, res) => {
     });
   });
 
+ 
+  
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello IUB from server!" });

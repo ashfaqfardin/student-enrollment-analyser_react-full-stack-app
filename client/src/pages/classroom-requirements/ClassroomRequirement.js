@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./ClassroomRequirement.css";
 import DataTable from "../../components/table/DataTable";
-import Pie_Chart from "../../components/charts/pie-chart/Pie_Chart";
+import PiChart from "../../components/charts/pie-chart/PiChart";
 
 export default function ClassroomRequirement() {
   const [data, setData] = useState([]);
   const [semesterNyear, setSemesterNyear] = useState([]);
-  const [semester, setSemester] = useState("");
-  const [year, setYear] = useState("");
-
+  // const [semester, setSemester] = useState("");
+  // const [year, setYear] = useState("");
+  let semester, year;
   const handleSubmit = () => {
     axios
       .get(`/classroom-requirements-data/${semester}/${year}`)
@@ -24,15 +24,15 @@ export default function ClassroomRequirement() {
     });
   }, []);
 
-const header = ["Class Size", "Sections", "Classroom-6", "Classroom-7"];
+  const header = ["Class Size", "Sections", "Classroom-6", "Classroom-7"];
 
   return (
     <div className="page-container">
-      <div>
+      <div className="dropDown_container">
         <select
           onChange={(e) => {
-            setSemester(e.target.value.split(",")[0]);
-            setYear(e.target.value.split(",")[1]);
+            semester = e.target.value.split(",")[0];
+            year = e.target.value.split(",")[1];
           }}
         >
           <option>choose The semester here</option>
@@ -44,11 +44,13 @@ const header = ["Class Size", "Sections", "Classroom-6", "Classroom-7"];
         </select>
         <button onClick={handleSubmit}>Get Data</button>
       </div>
-      <div className="table_container">
-        <DataTable data={data} header={header}></DataTable>
-      </div>
-      <div className="chart_container">
-        <Pie_Chart></Pie_Chart>
+      <div className="tbl_Chart-container">
+        <div className="table_container">
+          <DataTable data={data} header={header}></DataTable>
+        </div>
+        <div className="chart_container">
+          <PiChart data={data.slice(0, -1)}></PiChart>
+        </div>
       </div>
     </div>
   );

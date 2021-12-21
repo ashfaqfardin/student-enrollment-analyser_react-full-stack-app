@@ -2,15 +2,31 @@
     flex: 78%;
     background: #f2f6fb;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+}
+.dropDown_container{
+    height:100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 70px;
+}
+
+.tbl_Chart-container{
+    height:auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* min-width: 100%; */
 }
 
 .table_container{
-    max-width: 70%;
-    margin-top: 100px;
-    margin-left: 100px;
+    width: auto;
+    height:auto;
+    margin-top: 120px;
 }
 
 .chart_container{
-    background-color: burlywood;
+    margin-top: 70px;
+    display: grid;
 }
