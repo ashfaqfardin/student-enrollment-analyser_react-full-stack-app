@@ -57,6 +57,28 @@ WHERE enrolled BETWEEN 1 AND 65 AND semester = '${semester}' AND year = ${year}`
   });
 });
 
+app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
+  //let arr = [];
+  const {semester, year} = req.params;
+  let temp;
+  let m;
+  let tempsql = `SELECT max(enrolled) as Max_enrolled From course_section where semester='${semester}' and year=${year};`;
+  let query1 = db.query(tempsql, (err, results) => {
+    if (err) throw err;
+    var string=JSON.stringify(results);
+    var temp =  JSON.parse(string);
+    m = parseInt(temp[0].Max_enrolled);
+    let sql="";
+    for(let i=1; i<=m; i++){
+      sql += `SELECT '${i}' as Enrollment, COUNT(CASE WHEN c.school_title='SBE' THEN 'SBE' END) AS SBE, COUNT(CASE WHEN c.school_title='SELS' THEN 'SELS' END) AS SELS, COUNT(CASE WHEN c.school_title='SETS' THEN 'SBE' END) AS SETS, COUNT(CASE WHEN c.school_title='SLASS' THEN 'SLASS' END) AS SLASS, COUNT(CASE WHEN c.school_title='SPPH' THEN 'SPPH' END) AS SPPH, COUNT(cs.courseId) AS Total FROM course_section as cs, course as c WHERE semester = '${semester}' AND year = ${year} AND cs.courseId=c.courseId AND cs.blocked IN ('-1', '0') AND enrolled='${i}' UNION `; 
+    }
+    sql += `SELECT 'Total' as Enrollment, COUNT(CASE WHEN c.school_title='SBE' THEN 'SBE' END) AS SBE, COUNT(CASE WHEN c.school_title='SELS' THEN 'SELS' END) AS SELS, COUNT(CASE WHEN c.school_title='SETS' THEN 'SBE' END) AS SETS, COUNT(CASE WHEN c.school_title='SLASS' THEN 'SLASS' END) AS SLASS, COUNT(CASE WHEN c.school_title='SPPH' THEN 'SPPH' END) AS SPPH, COUNT(cs.courseId) AS Total FROM course_section as cs, course as c WHERE semester = '${semester}' AND year = ${year} AND cs.courseId=c.courseId AND cs.blocked IN ('-1', '0') ;`; 
+    let query = db.query(sql, (err, results) => {
+        if (err) throw err;
+          res.send(results);
+      });
+  });
+});
 
 app.get("/class-size-distributions/:semester/:year", (req, res) => {
   const {semester, year} = req.params;
