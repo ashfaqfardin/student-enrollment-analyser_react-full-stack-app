@@ -1,4 +1,3 @@
-const { query } = require("express");
 const express = require("express");
 
 const PORT = process.env.PORT || 5000;
@@ -62,7 +61,7 @@ app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
   const {semester, year} = req.params;
   let temp;
   let m;
-  let tempsql = `SELECT max(enrolled) as Max_enrolled From course_section where semester='${semester}' and year=${year};`;
+  let tempsql = SELECT max(enrolled) as Max_enrolled From course_section where semester='${semester}' and year=${year};;
   let query1 = db.query(tempsql, (err, results) => {
     if (err) throw err;
     var string=JSON.stringify(results);
@@ -70,9 +69,9 @@ app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
     m = parseInt(temp[0].Max_enrolled);
     let sql="";
     for(let i=1; i<=m; i++){
-      sql += `SELECT '${i}' as Enrollment, COUNT(CASE WHEN c.school_title='SBE' THEN 'SBE' END) AS SBE, COUNT(CASE WHEN c.school_title='SELS' THEN 'SELS' END) AS SELS, COUNT(CASE WHEN c.school_title='SETS' THEN 'SBE' END) AS SETS, COUNT(CASE WHEN c.school_title='SLASS' THEN 'SLASS' END) AS SLASS, COUNT(CASE WHEN c.school_title='SPPH' THEN 'SPPH' END) AS SPPH, COUNT(cs.courseId) AS Total FROM course_section as cs, course as c WHERE semester = '${semester}' AND year = ${year} AND cs.courseId=c.courseId AND cs.blocked IN ('-1', '0') AND enrolled='${i}' UNION `; 
+      sql += SELECT '${i}' as Enrollment, COUNT(CASE WHEN c.school_title='SBE' THEN 'SBE' END) AS SBE, COUNT(CASE WHEN c.school_title='SELS' THEN 'SELS' END) AS SELS, COUNT(CASE WHEN c.school_title='SETS' THEN 'SBE' END) AS SETS, COUNT(CASE WHEN c.school_title='SLASS' THEN 'SLASS' END) AS SLASS, COUNT(CASE WHEN c.school_title='SPPH' THEN 'SPPH' END) AS SPPH, COUNT(cs.courseId) AS Total FROM course_section as cs, course as c WHERE semester = '${semester}' AND year = ${year} AND cs.courseId=c.courseId AND cs.blocked IN ('-1', '0') AND enrolled='${i}' UNION ; 
     }
-    sql += `SELECT 'Total' as Enrollment, COUNT(CASE WHEN c.school_title='SBE' THEN 'SBE' END) AS SBE, COUNT(CASE WHEN c.school_title='SELS' THEN 'SELS' END) AS SELS, COUNT(CASE WHEN c.school_title='SETS' THEN 'SBE' END) AS SETS, COUNT(CASE WHEN c.school_title='SLASS' THEN 'SLASS' END) AS SLASS, COUNT(CASE WHEN c.school_title='SPPH' THEN 'SPPH' END) AS SPPH, COUNT(cs.courseId) AS Total FROM course_section as cs, course as c WHERE semester = '${semester}' AND year = ${year} AND cs.courseId=c.courseId AND cs.blocked IN ('-1', '0') ;`; 
+    sql += SELECT 'Total' as Enrollment, COUNT(CASE WHEN c.school_title='SBE' THEN 'SBE' END) AS SBE, COUNT(CASE WHEN c.school_title='SELS' THEN 'SELS' END) AS SELS, COUNT(CASE WHEN c.school_title='SETS' THEN 'SBE' END) AS SETS, COUNT(CASE WHEN c.school_title='SLASS' THEN 'SLASS' END) AS SLASS, COUNT(CASE WHEN c.school_title='SPPH' THEN 'SPPH' END) AS SPPH, COUNT(cs.courseId) AS Total FROM course_section as cs, course as c WHERE semester = '${semester}' AND year = ${year} AND cs.courseId=c.courseId AND cs.blocked IN ('-1', '0') ;; 
     let query = db.query(sql, (err, results) => {
         if (err) throw err;
           res.send(results);
@@ -80,6 +79,10 @@ app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
+=======
+// reveue 1st table
+>>>>>>> 783399d342abdae6687355164d7d967524dfafb0
 app.get("/", (req, res) => {
 
   let sql = `SELECT CONCAT(CS.year, CASE WHEN CS.semester='Autumn' THEN "3" WHEN CS.semester='Spring' THEN "1" WHEN CS.semester='Summer' THEN "2" END, CS.semester) as Semester, 
@@ -99,6 +102,57 @@ app.get("/", (req, res) => {
     });
   });
 
+<<<<<<< HEAD
+=======
+  //Usage of the resources -- start
+  app.get("#/:semester/:year", (req, res) => {
+
+    const {semester, year} = req.params;
+    let sql = `SELECT
+    CASE
+        WHEN semester = 'Spring' THEN 'Spring'
+          WHEN semester = 'Summer' THEN 'Summer'
+          WHEN semester = 'Autumn' THEN 'Autumn'
+      END AS 'School',
+  SUM(enrolled) AS 'Sum',
+    SUM(enrolled) / COUNT(CASE WHEN blocked != 'B-0' THEN section END) AS 'Avg Enroll',
+      SUM(room_capacity) / COUNT(classroom.roomId) AS 'Avg Room',
+      SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section) AS 'Difference',
+      ROUND((SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section)) * 100 / (SUM(room_capacity) / COUNT(classroom.roomId)), 2) AS 'Unused %'
+  FROM course_section, classroom, course
+  WHERE semester = '${semester}' 
+    AND year = ${year} 
+      AND course_section.roomId = classroom.roomId 
+      AND course_section.courseId = course.courseId
+  UNION
+  SELECT 
+    CASE
+        WHEN course.school_title='SBE' then 'SBE'
+        WHEN course.school_title='SELS' then 'SELS'
+        WHEN course.school_title='SETS' then 'SETS'
+        WHEN course.school_title='SLASS' then 'SLASS'
+        WHEN course.school_title='SPPH' then 'SPPH'
+      END AS 'School',
+    SUM(enrolled) AS 'Sum',
+    SUM(enrolled) / COUNT(CASE WHEN blocked != 'B-0' THEN section END) AS 'Avg Enroll',
+      SUM(room_capacity) / COUNT(classroom.roomId) AS 'Avg Room',
+      SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section) AS 'Difference',
+      ROUND((SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section)) * 100 / (SUM(room_capacity) / COUNT(classroom.roomId)), 2) AS 'Unused %'
+  FROM course_section, classroom, course
+  WHERE semester = '${semester}' 
+    AND year = ${year} 
+      AND course_section.roomId = classroom.roomId 
+      AND course_section.courseId = course.courseId
+  GROUP BY School;`       
+      let query = db.query(sql, (err, results) => {
+        if (err) throw err;
+        console.log(results);
+        res.send(results);
+      });
+    });
+
+  // Usage of the resources -- end  
+>>>>>>> 783399d342abdae6687355164d7d967524dfafb0
 app.get("/semesters&Years-on-database", (req, res) => {
 
   let sql = `SELECT DISTINCT semester, year
@@ -111,13 +165,11 @@ app.get("/semesters&Years-on-database", (req, res) => {
     });
   });
 
- 
-  
 
 app.get("/api", (req, res) => {
   res.json({ message: "Hello IUB from server!" });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
+  console.log(Server listening on ${PORT});
 });
