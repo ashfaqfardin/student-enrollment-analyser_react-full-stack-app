@@ -80,6 +80,7 @@ app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 app.get("/class-size-distributions/:semester/:year", (req, res) => {
   const {semester, year} = req.params;
   let sql = `SELECT
@@ -106,11 +107,31 @@ HAVING enrollment IS NOT NULL;`;
   
     let query = db.query(sql, (err, results) => {
       if (err) throw err;
+=======
+app.get("/", (req, res) => {
+
+  let sql = `SELECT CONCAT(CS.year, CASE WHEN CS.semester='Autumn' THEN "3" WHEN CS.semester='Spring' THEN "1" WHEN CS.semester='Summer' THEN "2" END, CS.semester) as Semester, 
+  SUM(CASE WHEN C.school_title='SBE' THEN CS.enrolled*C.credit_hour END) as SBE, 
+  SUM(CASE WHEN C.school_title='SETS' THEN CS.enrolled*C.credit_hour END) as SETS, 
+  SUM(CASE WHEN C.school_title='SELS' THEN CS.enrolled*C.credit_hour END) as SELS, 
+  SUM(CASE WHEN C.school_title='SLASS' THEN CS.enrolled*C.credit_hour END) as SLASS, 
+  SUM(CASE WHEN C.school_title='SPPH' THEN CS.enrolled*C.credit_hour END) as SPPH,
+  SUM(CS.enrolled*C.credit_hour) as Total, 
+  ((SUM(CS.enrolled*C.credit_hour) - (SELECT SUM(course_section.enrolled*course.credit_hour) FROM course_section, course WHERE course_section.year=CS.year-1 AND course_section.semester=CS.semester AND course_section.courseId=course.courseId AND course_section.blocked IN ('-1', '0')))/SUM(CS.enrolled*C.credit_hour))*100 as DIFFERENCE 
+  FROM course_section as CS, course as C WHERE CS.courseId=C.courseId AND CS.blocked IN ('-1', '0') GROUP BY year, semester ORDER BY semester;`;
+            
+    let query = db.query(sql, (err, results) => {
+      if (err) throw err;
+      console.log(results);
+>>>>>>> 8074554a099a028d1405b4ba15b2437b15626998
       res.send(results);
     });
   });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8074554a099a028d1405b4ba15b2437b15626998
 app.get("/semesters&Years-on-database", (req, res) => {
 
   let sql = `SELECT DISTINCT semester, year
