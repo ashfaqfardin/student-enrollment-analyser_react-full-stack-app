@@ -79,6 +79,7 @@ app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
   });
 });
 
+// reveue 1st table
 app.get("/", (req, res) => {
 
   let sql = `SELECT CONCAT(CS.year, CASE WHEN CS.semester='Autumn' THEN "3" WHEN CS.semester='Spring' THEN "1" WHEN CS.semester='Summer' THEN "2" END, CS.semester) as Semester, 
@@ -98,6 +99,54 @@ app.get("/", (req, res) => {
     });
   });
 
+  //Usage of the resources -- start
+  app.get("#/:semester/:year", (req, res) => {
+
+    const {semester, year} = req.params;
+    let sql = `SELECT
+    CASE
+        WHEN semester = 'Spring' THEN 'Spring'
+          WHEN semester = 'Summer' THEN 'Summer'
+          WHEN semester = 'Autumn' THEN 'Autumn'
+      END AS 'School',
+  SUM(enrolled) AS 'Sum',
+    SUM(enrolled) / COUNT(CASE WHEN blocked != 'B-0' THEN section END) AS 'Avg Enroll',
+      SUM(room_capacity) / COUNT(classroom.roomId) AS 'Avg Room',
+      SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section) AS 'Difference',
+      ROUND((SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section)) * 100 / (SUM(room_capacity) / COUNT(classroom.roomId)), 2) AS 'Unused %'
+  FROM course_section, classroom, course
+  WHERE semester = '${semester}' 
+    AND year = ${year} 
+      AND course_section.roomId = classroom.roomId 
+      AND course_section.courseId = course.courseId
+  UNION
+  SELECT 
+    CASE
+        WHEN course.school_title='SBE' then 'SBE'
+        WHEN course.school_title='SELS' then 'SELS'
+        WHEN course.school_title='SETS' then 'SETS'
+        WHEN course.school_title='SLASS' then 'SLASS'
+        WHEN course.school_title='SPPH' then 'SPPH'
+      END AS 'School',
+    SUM(enrolled) AS 'Sum',
+    SUM(enrolled) / COUNT(CASE WHEN blocked != 'B-0' THEN section END) AS 'Avg Enroll',
+      SUM(room_capacity) / COUNT(classroom.roomId) AS 'Avg Room',
+      SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section) AS 'Difference',
+      ROUND((SUM(room_capacity) / COUNT(classroom.roomId) - SUM(enrolled) / COUNT(section)) * 100 / (SUM(room_capacity) / COUNT(classroom.roomId)), 2) AS 'Unused %'
+  FROM course_section, classroom, course
+  WHERE semester = '${semester}' 
+    AND year = ${year} 
+      AND course_section.roomId = classroom.roomId 
+      AND course_section.courseId = course.courseId
+  GROUP BY School;`       
+      let query = db.query(sql, (err, results) => {
+        if (err) throw err;
+        console.log(results);
+        res.send(results);
+      });
+    });
+
+  // Usage of the resources -- end  
 app.get("/semesters&Years-on-database", (req, res) => {
 
   let sql = `SELECT DISTINCT semester, year
