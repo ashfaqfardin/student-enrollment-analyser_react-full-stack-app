@@ -1,0 +1,28 @@
+.pi_container{
+    background: #f2f6fb;
+}
+
+.pi_sub-container{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+    margin-top: 30px;
+    margin-left: 35px;
+    height: 360px;
+	width: 400px;
+	border-radius: 20px;
+    /* background: #e0e0e0; */
+    box-shadow: -3px -3px 7px #ffffffa6, 3px 3px 5px rgba(94, 104, 121, 0.712);
+	position: relative;
+    cursor: pointer;
+}
+
+.pi_sub-container:after{
+    content: '';
+	position: absolute;
+	height: 355px;
+	width: 395px;
+	background-color: transparent;
+    border-radius:17px;
+	box-shadow: inset -3px -3px 15px #ffffffb0, inset 3px 3px 5px rgba(94, 104, 121, 0.671);
+}

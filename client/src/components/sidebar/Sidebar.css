@@ -1,13 +1,11 @@
 .sidebar_container{
-    flex: auto;
-    background-color:blue;
+    flex: 22%;
     height: auto;
     width: 300px;
 }
 
 .sidebarContent_container{
-    background: #f2f6fb;
-    height: 100vh;
+    min-height: 100%;
     width:100%;
     display:flex;
     flex-direction: column;
@@ -22,7 +20,7 @@
     height: 90px;
 	width: 250px;
 	border-radius: 20px;
-    background: #e0e0e0;
+    /* background: #e0e0e0; */
     box-shadow:  19px 19px 35px #c3c3c3,-19px -19px 58px #f2f6fb;
 }
 
@@ -41,7 +39,7 @@
     height: 80px;
 	width: 240px;
 	border-radius: 20px;
-    background: #e0e0e0;
+    /* background: #e0e0e0; */
     box-shadow: -3px -3px 7px #ffffffa6, 3px 3px 5px rgba(94, 104, 121, 0.712);
 	position: relative;
     cursor: pointer;
@@ -68,6 +66,6 @@
     height: auto;
     width:250px;
     border-radius:15px;
-    background: #e0e0e0;
+    /* background: #e0e0e0; */
     box-shadow:  9px 9px 18px #bebebe, -9px -9px 18px #ffffff;
 }
