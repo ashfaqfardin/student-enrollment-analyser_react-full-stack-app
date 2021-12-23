@@ -320,7 +320,32 @@ app.get("/revenue-of-schools", (req, res) => {
 
 
 
-  
+  app.get("/revenue-of-sets", (req, res) => {
+
+    let sql = `SELECT CONCAT(CS.year, CASE WHEN CS.semester='Autumn' THEN "3" WHEN CS.semester='Spring' THEN "1" WHEN CS.semester='Summer' THEN "2" END, CS.semester) as Semester, 
+
+    SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'CCR%' OR C.courseId LIKE 'CNC%' OR C.courseId LIKE 'CEN%' OR  C.courseId LIKE 'SEN%' OR C.courseId LIKE 'CIS%' OR C.courseId LIKE 'CSC%' OR C.courseId LIKE 'CSE%' THEN CS.enrolled*C.credit_hour END) as CSE,
+    
+    SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'ETE%' OR C.courseId LIKE 'ECR%' OR C.courseId LIKE 'EEE%' THEN CS.enrolled*C.credit_hour END) as EEE,
+    
+    SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'PHY%' OR C.courseId LIKE 'MAT%' THEN CS.enrolled*C.credit_hour END) as PS,
+    
+    SUM(CASE WHEN C.school_title='SETS' THEN CS.enrolled*C.credit_hour END) as SETS,
+    
+    ((SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'CCR%' OR C.courseId LIKE 'CNC%' OR C.courseId LIKE 'CEN%' OR  C.courseId LIKE 'SEN%' OR C.courseId LIKE 'CIS%' OR C.courseId LIKE 'CSC%' OR C.courseId LIKE 'CSE%' THEN CS.enrolled*C.credit_hour END) - (SELECT SUM(course_section.enrolled*course.credit_hour) FROM course_section, course WHERE course_section.year=CS.year-1 AND course_section.semester=CS.semester AND course.school_title='SETS' AND course_section.courseId=course.courseId  AND course_section.blocked IN ('-1', '0') AND (course.courseId LIKE 'CCR%' OR course.courseId LIKE 'CNC%' OR course.courseId LIKE 'CEN%' OR  course.courseId LIKE 'SEN%' OR course.courseId LIKE 'CIS%' OR course.courseId LIKE 'CSC%' OR course.courseId LIKE 'CSE%')))/SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'CCR%' OR C.courseId LIKE 'CNC%' OR C.courseId LIKE 'CEN%' OR  C.courseId LIKE 'SEN%' OR C.courseId LIKE 'CIS%' OR C.courseId LIKE 'CSC%' OR C.courseId LIKE 'CSE%' THEN CS.enrolled*C.credit_hour END))*100 as 'CSE%',
+    
+    ((SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'ETE%' OR C.courseId LIKE 'ECR%' OR C.courseId LIKE 'EEE%' THEN CS.enrolled*C.credit_hour END) - (SELECT SUM(course_section.enrolled*course.credit_hour) FROM course_section, course WHERE course_section.year=CS.year-1 AND course_section.semester=CS.semester AND course.school_title='SETS' AND course_section.courseId=course.courseId  AND course_section.blocked IN ('-1', '0') AND (course.courseId LIKE 'ETE%' OR course.courseId LIKE 'ECR%' OR course.courseId LIKE 'EEE%')))/SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'ETE%' OR C.courseId LIKE 'ECR%' OR C.courseId LIKE 'EEE%' THEN CS.enrolled*C.credit_hour END))*100 as 'EEE%',
+    
+    ((SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'PHY%' OR C.courseId LIKE 'MAT%' THEN CS.enrolled*C.credit_hour END) - (SELECT SUM(course_section.enrolled*course.credit_hour) FROM course_section, course WHERE course_section.year=CS.year-1 AND course_section.semester=CS.semester AND course.school_title='SETS' AND course_section.courseId=course.courseId  AND course_section.blocked IN ('-1', '0') AND (course.courseId LIKE 'PHY%' OR course.courseId LIKE 'MAT%')))/SUM(CASE WHEN C.school_title='SETS' AND C.courseId LIKE 'PHY%' OR C.courseId LIKE 'MAT%' THEN CS.enrolled*C.credit_hour END))*100 as 'PS%',
+    
+    (SUM(CASE WHEN C.school_title='SETS' THEN CS.enrolled*C.credit_hour END) - (SELECT SUM(course_section.enrolled*course.credit_hour) FROM course_section, course WHERE course_section.year=CS.year-1 AND course_section.semester=CS.semester AND course.school_title='SETS' AND course_section.courseId=course.courseId  AND course_section.blocked IN ('-1', '0')))/(SUM(CASE WHEN C.school_title='SETS' THEN CS.enrolled*C.credit_hour END))*100 as 'SETS%' FROM course_section as CS, course as C WHERE CS.courseId=C.courseId AND CS.blocked IN ('-1', '0') GROUP BY year, semester ORDER BY semester;`;
+    
+      let query = db.query(sql, (err, results) => {
+        if (err) throw err;
+        console.log(results);
+        res.send(results);
+      });
+    });
 
 
 
@@ -342,3 +367,7 @@ app.get("/api", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+
+
+
