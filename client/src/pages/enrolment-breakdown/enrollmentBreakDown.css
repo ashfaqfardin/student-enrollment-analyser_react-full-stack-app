@@ -1,0 +1,19 @@
+.enrollment-break-pageContainer{
+    width: 78%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.enrollment-break-tbl-container{
+    display: grid;
+    grid-template-areas:
+    'DataTable DataTable DataTable DataTable DataTable DataTable';
+}
+
+.enrollment-break-dropDown_bar_container{
+    height:200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}

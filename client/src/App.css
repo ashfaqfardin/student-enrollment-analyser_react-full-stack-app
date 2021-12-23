@@ -1,7 +1,7 @@
 .App {
-  text-align: center;
-  min-height: 100vh;
   display: flex;
   background: #f2f6fb;
+  justify-content: space-between;
+  min-height: 100vh;
 }
 

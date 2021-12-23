@@ -1,0 +1,33 @@
+.school_revenue_pageContainer{
+    width: 78%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.school_revenue_tblChart_container{
+    margin-top: 100px;
+    display: grid;
+    grid-template-areas:
+    'DataTable DataTable DataTable DataTable DataTable DataTable'
+    'lineChart lineChart lineChart lineChart lineChart lineChart'
+    'areaChart areaChart areaChart areaChart areaChart areaChart'
+    'barLineChart barLineChart barLineChart barLineChart barLineChart barLineChart';
+}
+
+.lineChart_container{
+    margin-top: 50px;
+    width: 100%;
+    grid-area: lineChart;
+}
+
+.areaChart_container{
+    margin-top: 50px;
+    width: 100%;
+    grid-area: areaChart;
+}
+
+.barLineChart_container{
+    margin-top: 50px;
+    width: 100%;
+    grid-area: barLineChart;
+}

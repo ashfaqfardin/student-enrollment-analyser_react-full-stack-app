@@ -18,7 +18,7 @@ export default function DataTable({ data, header }) {
           </tr>
 
           {dataM.map((row) => (
-            <tr className="tr">
+            <tr className="tr" key={row}>
               {row.map((col) => (
                 <td className="cell" key={col}>{col}</td>
               ))}

@@ -1,26 +1,21 @@
 import React, { useEffect, useState } from "react";
-import './ResourceSummeries.css';
 import axios from "axios";
 import DataTable from "../../components/table/DataTable";
+import "./enrollmentBreakDown.css"
 
-export default function ResourceSummeries() {
+export default function EnrollmentBreakdown() {
   const [data, setData] = useState([]);
-  const [data2, setData2] = useState([]);
   const [semesterNyear, setsemesterNyear] = useState([]);
   const [semester, setSemester] = useState("");
   const [year, setYear] = useState("");
 
   const handleBtnSubmit = () => {
-    axios.get(`/usage-of-resources/${semester}/${year}`).then((response) => {
-      setData(response.data);
-    });
-
-    axios.get(`/usage-of-resources-summary/${semester}/${year}`).then((response) => {
-        setData2(response.data);
+    axios
+      .get(`/detailed-enrollment-breakdown/${semester}/${year}`)
+      .then((response) => {
+        setData(response.data);
       });
-    
   };
-
 
   useEffect(() => {
     axios.get("/semesters&Years-on-database").then((response) => {
@@ -28,26 +23,20 @@ export default function ResourceSummeries() {
     });
   }, []);
 
-
-
   const header = [
-    "          ",
-    "Sum",
-    "Avg Enroll",
-    "Avg Room",
-    "Difference",
-    "Unused%"
-  ];
-
-  const header2 = [
-    "          ",
-    `${semester}`
+    "Enrollment",
+    "SBE",
+    "SELS",
+    "SETS",
+    "SLASS",
+    "SPPH",
+    "Total",
   ];
 
   console.log(data);
   return (
-    <div className="resourse_summeries_pageContainer">
-      <div className="resourse_summeries_dropDown_bar_container">
+    <div className="enrollment-break-pageContainer">
+      <div className="enrollment-break-dropDown_bar_container">
         <select
           className="dropDown_bar"
           onChange={(e) => {
@@ -71,12 +60,9 @@ export default function ResourceSummeries() {
         </button>
       </div>
 
-      <div className="resourse_summeries_tbl_container">
-        <div className="rs_table1_container">
+      <div className="enrollment-break-tbl-container">
+        <div className="table_container">
           <DataTable data={data} header={header}></DataTable>
-        </div>
-        <div className="rs_table2_container">
-          <DataTable data={data2} header={header2}></DataTable>
         </div>
       </div>
     </div>
