@@ -258,51 +258,6 @@ app.get("/revenue-of-schools", (req, res) => {
             });
           });
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
           
@@ -346,18 +301,6 @@ app.get("/revenue-of-schools", (req, res) => {
         res.send(results);
       });
     });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.get("/api", (req, res) => {
