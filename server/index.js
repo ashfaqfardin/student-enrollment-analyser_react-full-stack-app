@@ -79,10 +79,7 @@ app.get("/detailedenrollmenttable/:semester/:year", (req, res) => {
   });
 });
 
-<<<<<<< HEAD
-=======
 // reveue 1st table
->>>>>>> 783399d342abdae6687355164d7d967524dfafb0
 app.get("/", (req, res) => {
 
   let sql = `SELECT CONCAT(CS.year, CASE WHEN CS.semester='Autumn' THEN "3" WHEN CS.semester='Spring' THEN "1" WHEN CS.semester='Summer' THEN "2" END, CS.semester) as Semester, 
@@ -102,8 +99,6 @@ app.get("/", (req, res) => {
     });
   });
 
-<<<<<<< HEAD
-=======
   //Usage of the resources -- start
   app.get("#/:semester/:year", (req, res) => {
 
@@ -152,7 +147,6 @@ app.get("/", (req, res) => {
     });
 
   // Usage of the resources -- end  
->>>>>>> 783399d342abdae6687355164d7d967524dfafb0
 app.get("/semesters&Years-on-database", (req, res) => {
 
   let sql = `SELECT DISTINCT semester, year
@@ -173,3 +167,7 @@ app.get("/api", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+
+
+
