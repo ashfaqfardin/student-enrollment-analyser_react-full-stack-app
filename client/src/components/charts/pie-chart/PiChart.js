@@ -5,30 +5,30 @@ import { PieChart, Pie,Legend, Tooltip } from "recharts";
 export default function PiChart({ data }) {
   return (
     <div className="pi_container">
-      <div className="pi_sub-container">
-        <PieChart width={450} height={320}>
+      
+      <div className="pi_sub-container s">
+        <PieChart width={320} height={270}>
           <Pie
             dataKey="classroom6"
             isAnimationActive={true}
             data={data}
-            cx={220}
-            cy={170}
+            cx={150}
+            cy={150}
             outerRadius={80}
             fill="#8884d8"
             label
           />
           <Tooltip />
-          <Legend verticalAlign="top" height={30}/>
         </PieChart>
       </div>
-      <div className="pi_sub-container">
-        <PieChart width={450} height={350}>
+      <div className="pi_sub-container l">
+        <PieChart width={320} height={270}>
           <Pie
             dataKey="classroom7"
             isAnimationActive={true}
             data={data}
-            cx={220}
-            cy={170}
+            cx={150}
+            cy={150}
             outerRadius={80}
             fill="#8884d8"
             label

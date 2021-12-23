@@ -5,26 +5,76 @@ import './ClassDist.css';
 import BarChart1 from "../../components/charts/bar-chart/BarChart1";
 
 export default function ClassDistribution() {
-  const [data, setData] = useState([]);
+  const [classDistData, setClassDistData] = useState([]);
+  const [dsemesterNyear, setDsemesterNyear] = useState([]);
+  const [semester, setSemester] = useState("");
+  const [year, setYear] = useState("");
+
+
+
+  const handleBtnSubmit = () => {
+    axios
+      .get(`/class-size-distributions/${semester}/${year}`)
+      .then((response) => {
+        setClassDistData(response.data);
+      });
+  };
+
+
 
   useEffect(() => {
-    axios.get("/class-size-distributions/spring/2020").then((response) => {
-      setData(response.data);
+    axios.get("/semesters&Years-on-database").then((response) => {
+      setDsemesterNyear(response.data);
     });
   }, []);
 
-  console.log(data)
-  const header = ["Enrollment", "SBE", "SELS", "SETS","SLASS","SPPH","Total"];
+
+  console.log(classDistData);
+
+  const headerForDist = ["Enrollment", "SBE", "SELS", "SETS","SLASS","SPPH","Total"];
   return (
-    <div>
-      <div className="page-container">
-        <div className="table_container">
-          <DataTable data={data} header={header}></DataTable>
-        </div>
-        <div>
-          <BarChart1></BarChart1>
-        </div>
-      </div>
+
+    <div className="page-container">
+
+    <div className="dropDown_container">
+
+      <select
+         className="dropDown_bar"
+         onChange={(e) => {
+          setSemester(e.target.value.split(",")[0]);
+          setYear(e.target.value.split(",")[1]);
+        }}
+      >
+
+        <option>Choose semester & year</option>
+        {dsemesterNyear.map((item) => (
+          <option
+            key={item.semester+item.year}
+            value={[item.semester, item.year]}>
+            {item.semester +" "+ item.year}
+          </option>
+        ))}
+
+      </select>
+
+      <button className="btn"onClick={handleBtnSubmit}>View Reports</button>
+
     </div>
+
+
+    <div className="tbl_Chart-container">
+
+      <div className="table_container">
+        <DataTable data={classDistData} header={headerForDist}></DataTable>
+      </div>
+
+      <div className="chart_container">
+        <BarChart1 data={classDistData}></BarChart1>
+      </div>
+
+    </div>
+
+
+  </div>
   );
 }

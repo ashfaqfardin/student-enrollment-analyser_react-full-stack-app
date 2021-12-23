@@ -3,12 +3,14 @@
     /* transform: translate(-50%,-50%); */
     padding: 10px;
     width:fit-content;
+    height: fit-content;
     box-shadow: 6px 6px 12px #b8b9be, -6px -6px 12px #fff;
     border-radius:8px;
 }
 
 table{
     border-collapse: collapse;
+    
 }
 
 .cell{

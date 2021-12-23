@@ -1,0 +1,29 @@
+.aResourse_summeries_pageContainer{
+    width: 78%;
+    min-height: 100vh;
+    position: relative;
+}
+
+.aResourse_summeries_tbl_container{
+    padding-top: 100px;
+    display: grid;
+    grid-template-areas:
+    'DataTable DataTable DataTable DataTable DataTable DataTable'
+    'DataTable2 DataTable2 DataTable2 DataTable2 DataTable2 DataTable2';
+}
+
+
+.ars_table1_container{
+    grid-area: DataTable;
+    display: flex;
+    justify-content: center;
+}
+
+
+.ars_table2_container{
+    margin-top: 100px;
+    grid-area: DataTable2;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 100px;
+}
