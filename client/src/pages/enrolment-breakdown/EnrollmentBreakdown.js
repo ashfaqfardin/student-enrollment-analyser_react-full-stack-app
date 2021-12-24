@@ -61,7 +61,8 @@ export default function EnrollmentBreakdown() {
       </div>
 
       <div className="enrollment-break-tbl-container">
-        <div className="table_container">
+        <div className="eb_table_container">
+          <h4>Breakdown of the number of courses (sections) offered in each school</h4>
           <DataTable data={data} header={header}></DataTable>
         </div>
       </div>

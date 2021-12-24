@@ -17,3 +17,16 @@
     justify-content: center;
     gap: 20px;
 }
+
+.eb_table_container{
+    grid-area: DataTable;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.eb_table_container>h4{
+    color:#0854DA;
+}

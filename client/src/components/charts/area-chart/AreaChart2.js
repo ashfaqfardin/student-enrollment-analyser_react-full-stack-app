@@ -6,6 +6,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  Legend
 } from "recharts";
 
 
@@ -27,27 +28,29 @@ export default function AreaChart2({data}) {
         <XAxis dataKey="Semester" />
         <YAxis />
         <Tooltip />
+        
         <Area
           
           dataKey="CSE"
           stackId="1"
-          stroke="#8884d8"
+          stroke="red"
           fill="red"
         />
         <Area
           
           dataKey="EEE"
           stackId="2"
-          stroke="#82ca9d"
-          fill="blue"
+          stroke="Green"
+          fill="Green"
         />
         <Area
           
           dataKey="PS"
           stackId="3"
-          stroke="#ffc658"
-          fill="orange"
+          stroke="blue"
+          fill="blue"
         />
+        <Legend verticalAlign="bottom" height={36}/>
       </AreaChart>
     </div>
   );

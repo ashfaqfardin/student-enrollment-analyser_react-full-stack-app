@@ -1,0 +1,34 @@
+.resourceUtilization_tbl_container{
+    display: grid;
+    grid-template-areas:
+    'DataTable DataTable DataTable barChart barChart barChart';
+}
+
+
+.ru_table1_container{
+    grid-area: DataTable;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ru_table1_container>h4{
+    color:#0854DA;
+}
+
+.ru_chart_container{
+    margin-top: 100px;
+    grid-area: barChart;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 100px;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ru_chart_container>h4{
+    color:#0854DA;
+}

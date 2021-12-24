@@ -7,8 +7,7 @@
 .resourse_summeries_tbl_container{
     display: grid;
     grid-template-areas:
-    'DataTable DataTable DataTable DataTable DataTable DataTable'
-    'DataTable2 DataTable2 DataTable2 DataTable2 DataTable2 DataTable2';
+    'DataTable DataTable DataTable DataTable2 DataTable2 DataTable2';
 }
 
 .resourse_summeries_dropDown_bar_container{
@@ -23,12 +22,26 @@
     grid-area: DataTable;
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.rs_table1_container>h4{
+    color:#0854DA;
 }
 
 .rs_table2_container{
-    margin-top: 100px;
+    margin-top: 40px;
     grid-area: DataTable2;
     display: flex;
+    align-items: center;
     justify-content: center;
     padding-bottom: 100px;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.rs_table2_container>h4{
+    color:#0854DA;
 }

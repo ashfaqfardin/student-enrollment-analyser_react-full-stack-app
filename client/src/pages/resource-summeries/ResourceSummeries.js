@@ -73,9 +73,11 @@ export default function ResourceSummeries() {
 
       <div className="resourse_summeries_tbl_container">
         <div className="rs_table1_container">
+         <h4>Usage of the resources</h4>
           <DataTable data={data} header={header}></DataTable>
         </div>
         <div className="rs_table2_container">
+         <h4>Summeries</h4>
           <DataTable data={data2} header={header2}></DataTable>
         </div>
       </div>

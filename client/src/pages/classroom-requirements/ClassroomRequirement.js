@@ -30,7 +30,7 @@ export default function ClassroomRequirement() {
 
 
   const header = ["Class Size", "Sections", "Classroom-6", "Classroom-7"];
-
+  
 
   return (
     <div className="page-container">
@@ -58,6 +58,7 @@ export default function ClassroomRequirement() {
       <div className="tbl_Chart-container">
 
         <div className="table_container">
+          <h4>Classroom requirement as per course offering (Summary)</h4>
           <DataTable data={data} header={header}></DataTable>
         </div>
 

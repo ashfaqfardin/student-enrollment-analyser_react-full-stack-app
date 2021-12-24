@@ -29,13 +29,16 @@ const [data, setData] = useState([]);
         <div className="school_revenue_pageContainer">
 
       <div className="school_revenue_tblChart_container">
-        <div className="table_container">
+        <div className="sr_table_container">
+        <h4>Department wise revenue in SETS</h4>
           <DataTable data={data} header={header}></DataTable>
         </div>
         <div className="lineChart_container">
+        <h4>CSE Revenue and Change %</h4>
            <LineChart2 data={data}></LineChart2>
         </div>
         <div className="areaChart_container">
+        <h4>EEE Department</h4>
             <AreaChart2 data={data}></AreaChart2>
         </div>
       </div>

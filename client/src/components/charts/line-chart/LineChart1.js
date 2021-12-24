@@ -9,11 +9,14 @@ import {
   Legend,
 } from "recharts";
 
+//0088FE", "#00C49F", "#FFBB28", "#FF8042", "#854262", "#DE3163","purple","violet","green","#red"
+
+
 export default function LineChart1({ data}) {
   return (
     <div>
       <LineChart
-        width={1020}
+        width={1000}
         height={400}
         data={data}
         margin={{
@@ -30,14 +33,14 @@ export default function LineChart1({ data}) {
         <Legend />
         <Line
           dataKey="SBE"
-          stroke="#8884d8"
+          stroke="#00C49F"
           activeDot={{ r: 8 }}
           strokeWidth={2}
         />
-        <Line  dataKey="SETS" stroke="red" strokeWidth={2}/>
-        <Line  dataKey="SELS" stroke="green" strokeWidth={2}/>
-        <Line  dataKey="SLASS" stroke="orange" strokeWidth={2}/>
-        <Line  dataKey="SPPH" stroke="blue" strokeWidth={2}/>
+        <Line  dataKey="SETS" stroke="#FFBB28" strokeWidth={2}/>
+        <Line  dataKey="SELS" stroke="#FF8042" strokeWidth={2}/>
+        <Line  dataKey="SLASS" stroke="#854262" strokeWidth={2}/>
+        <Line  dataKey="SPPH" stroke="#DE3163" strokeWidth={2}/>
         <Line  dataKey="Total" stroke="gray" strokeWidth={2}/>
       </LineChart>
     </div>

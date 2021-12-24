@@ -32,9 +32,11 @@ export default function AvailableResourceSummeries() {
     <div className="aResourse_summeries_pageContainer">
       <div className="aResourse_summeries_tbl_container">
         <div className="ars_table1_container">
+          <h4>IUB available resources</h4>
           <DataTable data={data} header={header}></DataTable>
         </div>
         <div className="ars_table2_container">
+        <h4>IUB available resources Summeries</h4>
           <DataTable data={data2} header={header2}></DataTable>
         </div>
       </div>

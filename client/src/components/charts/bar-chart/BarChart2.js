@@ -6,17 +6,16 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  Line
+  Legend
 } from "recharts";
 
-export default function BarChart1({ data }) {
+export default function BarChart2({ data }) {
   
   return (
     <div>
       <ComposedChart
         width={600}
-        height={430}
+        height={300}
         data={data}
         margin={{
           top: 5,
@@ -26,16 +25,12 @@ export default function BarChart1({ data }) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="enrollment"/>
+        <XAxis dataKey="classsize"/>
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="SBE" fill="#FF5396" background={{ fill: "#eee" }} />
-        <Bar dataKey="SELS" fill="#DDBBFF" />
-        <Bar dataKey="SETS" fill="green" />
-        <Bar dataKey="SLASS" fill="orange" />
-        <Bar dataKey="SPPH" fill="#19697b" />
-        <Line type="monotone" dataKey="TOTAL" stroke="#ff7300" />
+        <Bar dataKey="IUB_resources" fill="#4472c4" background={{ fill: "#eee" }} />
+        <Bar dataKey="semester" fill="#ED7D31" />
         </ComposedChart>
     </div>
   );

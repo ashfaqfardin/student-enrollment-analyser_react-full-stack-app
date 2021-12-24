@@ -48,6 +48,12 @@
     grid-area: DataTable;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.table_container>h4{
+    color:#0854DA;
 }
 
 .chart_container{

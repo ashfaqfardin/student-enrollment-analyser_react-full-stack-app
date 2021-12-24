@@ -13,7 +13,7 @@ export default function LineChart2({ data}) {
   return (
     <div>
       <LineChart
-        width={1020}
+        width={990}
         height={400}
         data={data}
         margin={{

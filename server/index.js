@@ -259,6 +259,104 @@ app.get("/revenue-of-schools", (req, res) => {
           });
 
 
+app.get("/:semester/:year", (req, res) => {
+    const {semester, year} = req.params;
+    let sql = `SELECT 
+    CASE 
+        WHEN room_capacity BETWEEN 1 AND 20 THEN '20'
+          WHEN room_capacity BETWEEN 21 AND 30 THEN '30'
+          WHEN room_capacity BETWEEN 31 AND 35 THEN '35'
+          WHEN room_capacity BETWEEN 36 AND 40 THEN '40'
+          WHEN room_capacity BETWEEN 41 AND 50 THEN '50'
+          WHEN room_capacity BETWEEN 51 AND 54 THEN '54'
+          WHEN room_capacity BETWEEN 55 AND 64 THEN '64'
+          WHEN room_capacity BETWEEN 65 AND 124 THEN '124'
+          WHEN room_capacity BETWEEN 125 AND 168 THEN '168'
+          WHEN room_capacity THEN room_capacity
+      END AS classsize,
+      COUNT(DISTINCT(course_section.roomId)) AS IUB_resources,
+      ROUND(COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12) AS semester,
+      ROUND(COUNT(DISTINCT(course_section.roomId)) - COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS Difference
+  FROM course_section
+  LEFT JOIN classroom ON course_section.roomId = classroom.roomId
+  WHERE semester = '${semester}' AND year = ${year} OR enrolled = 0
+  GROUP BY classsize
+  HAVING classsize IS NOT NULL
+  UNION
+  SELECT 
+    'Total',
+      COUNT(DISTINCT(course_section.roomId)) AS IUB_resources,
+      ROUND(COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS semester,
+      ROUND(COUNT(DISTINCT(course_section.roomId)) - COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS Difference
+  FROM course_section
+  LEFT JOIN classroom ON course_section.roomId = classroom.roomId
+  WHERE (semester = '${semester}' AND year = ${year} OR enrolled = 0) AND room_capacity != 0;`
+
+    let query = db.query(sql, (err, results) => {
+      if (err) throw err;
+      console.log(results);
+      res.send(results);
+    });
+  });
+
+
+
+
+  app.get("/resources-utilization/:semester/:year", (req, res) => {
+    const {semester, year} = req.params;
+    let sql = `SELECT 
+    CASE 
+        WHEN room_capacity BETWEEN 1 AND 20 THEN '20'
+          WHEN room_capacity BETWEEN 21 AND 30 THEN '30'
+          WHEN room_capacity BETWEEN 31 AND 35 THEN '35'
+          WHEN room_capacity BETWEEN 36 AND 40 THEN '40'
+          WHEN room_capacity BETWEEN 41 AND 50 THEN '50'
+          WHEN room_capacity BETWEEN 51 AND 54 THEN '54'
+          WHEN room_capacity BETWEEN 55 AND 64 THEN '64'
+          WHEN room_capacity BETWEEN 65 AND 124 THEN '124'
+          WHEN room_capacity BETWEEN 125 AND 168 THEN '168'
+          WHEN room_capacity THEN room_capacity
+      END AS classsize,
+      COUNT(DISTINCT(course_section.roomId)) AS IUB_resources,
+      ROUND(COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS semester,
+      COUNT(DISTINCT(course_section.roomId)) - ROUND(COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS Difference
+  FROM course_section
+  LEFT JOIN classroom ON course_section.roomId = classroom.roomId
+  WHERE semester = '${semester}' AND year = ${year} OR enrolled = 0
+  GROUP BY classsize
+  HAVING classsize IS NOT NULL
+  UNION
+  SELECT 
+    'Total',
+      COUNT(DISTINCT(course_section.roomId)) AS IUB_resources,
+      ROUND(COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS semester,
+      COUNT(DISTINCT(course_section.roomId)) - ROUND(COUNT(CASE WHEN enrolled > 0 THEN 1 END) / 12, 1) AS Difference
+  FROM course_section
+  LEFT JOIN classroom ON course_section.roomId = classroom.roomId
+  WHERE (semester = '${semester}' AND year = ${year} OR enrolled = 0) AND room_capacity != 0;`
+
+    let query = db.query(sql, (err, results) => {
+      if (err) throw err;
+      console.log(results);
+      res.send(results);
+    });
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           
   app.get("/semesters&Years-on-database", (req, res) => {
@@ -272,6 +370,10 @@ app.get("/revenue-of-schools", (req, res) => {
       res.send(results);
     });
   });
+
+ 
+
+
 
 
 
